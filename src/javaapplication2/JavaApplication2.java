@@ -19,7 +19,7 @@ public class JavaApplication2 {
     public static void main(String[] args) {
         // TODO code application logic here
         Session dbSession = new Session("localhost",5984);
-        dbSession.createDatabase("test");
+        dbSession.createDatabase("test ");
     }
     
 }
