@@ -20,6 +20,7 @@ public class JavaApplication2 {
         // TODO code application logic here
         Session dbSession = new Session("localhost",5984);
         dbSession.createDatabase("test ");
+        System.out.println("javaapplication2.JavaApplication2.main()");
     }
     
 }
