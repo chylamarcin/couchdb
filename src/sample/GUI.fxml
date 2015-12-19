@@ -9,16 +9,18 @@
 
 <AnchorPane id="AnchorPane" maxHeight="594.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="594.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
    <children>
-      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="569.0" prefWidth="564.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="594.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Nowa baza">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" text="Plik z danymi:" />
-                        <Button layoutX="290.0" layoutY="10.0" mnemonicParsing="false" text="..." />
-                        <TextField disable="true" layoutX="96.0" layoutY="10.0" prefHeight="25.0" prefWidth="185.0" />
-                        <Button layoutX="152.0" layoutY="49.0" mnemonicParsing="false" text="Wczytaj dane i stwórz bazę " />
+                        <Button layoutX="526.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCreateDataBaseFileChooseClick" text="..." />
+                        <TextField fx:id="fileForNewDataBase" disable="true" editable="false" layoutX="96.0" layoutY="10.0" prefHeight="25.0" prefWidth="424.0" />
+                        <Button fx:id="createDataBase" disable="true" layoutX="198.0" layoutY="81.0" mnemonicParsing="false" onAction="#onCreateDataBaseClick" text="Wczytaj dane i stwórz bazę " />
+                        <Label layoutX="21.0" layoutY="51.0" text="Nazwa bazy:" />
+                        <TextField fx:id="dataBaseName" disable="true" layoutX="96.0" layoutY="47.0" prefHeight="25.0" prefWidth="425.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
