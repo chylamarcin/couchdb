@@ -1,29 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sample.GUIController">
+<AnchorPane id="AnchorPane" maxHeight="594.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="594.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
    <children>
-      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="397.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="569.0" prefWidth="564.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled Tab 1">
+          <Tab text="Nowa baza">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Plik z danymi:" />
+                        <Button layoutX="290.0" layoutY="10.0" mnemonicParsing="false" text="..." />
+                        <TextField disable="true" layoutX="96.0" layoutY="10.0" prefHeight="25.0" prefWidth="185.0" />
+                        <Button layoutX="152.0" layoutY="49.0" mnemonicParsing="false" text="Wczytaj dane i stwórz bazę " />
+                     </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="Przeglądaj ">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="295.0" prefWidth="397.0">
+                     <children>
+                        <ComboBox layoutX="94.0" layoutY="10.0" prefWidth="150.0" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
+                        <TextArea layoutX="14.0" layoutY="48.0" prefHeight="480.0" prefWidth="536.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="K-średnich">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="386.0" prefWidth="420.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
+                        <ComboBox layoutX="95.0" layoutY="10.0" prefWidth="150.0" />
+                        <Label layoutX="253.0" layoutY="14.0" text="k:" />
+                        <TextField layoutX="272.0" layoutY="10.0" promptText="Podaj wartość k" />
+                        <Button layoutX="432.0" layoutY="10.0" mnemonicParsing="false" text="Oblicz skupienia " />
+                        <PieChart layoutX="14.0" layoutY="52.0" prefHeight="271.0" prefWidth="538.0" />
+                        <TextArea layoutX="13.0" layoutY="332.0" prefHeight="201.0" prefWidth="540.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="K-NN">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Wskaż bazę treningową:" />
+                        <ComboBox layoutX="148.0" layoutY="10.0" prefWidth="150.0" />
+                        <RadioButton layoutX="14.0" layoutY="68.0" mnemonicParsing="false" text="Baza z danymi">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="source" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton layoutX="14.0" layoutY="101.0" mnemonicParsing="false" text="Plik z danymi" toggleGroup="$source" />
+                        <Label layoutX="14.0" layoutY="42.0" text="Wybierz źródło danych testowych:" />
+                        <ComboBox layoutX="148.0" layoutY="64.0" prefWidth="150.0" />
+                        <TextField layoutX="149.0" layoutY="97.0" />
+                        <Button layoutX="308.0" layoutY="97.0" mnemonicParsing="false" text="..." />
+                        <Button layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Klasyfikuj" />
+                        <Button layoutX="467.0" layoutY="501.0" mnemonicParsing="false" text="Zapisz wynik" />
+                        <TextArea layoutX="14.0" layoutY="170.0" prefHeight="320.0" prefWidth="540.0" />
+                        <Label layoutX="308.0" layoutY="14.0" text="Atrybut decyzyjny (nazwa lub numer):" />
+                        <TextField layoutX="333.0" layoutY="38.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Ustawienia">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Adres serwera CouchDB" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Adres serwera CouchDB:" />
                         <TextField fx:id="URL" layoutX="150.0" layoutY="10.0" />
                         <Button layoutX="249.0" layoutY="73.0" mnemonicParsing="false" onAction="#onSaveAdresClick" text="Zapisz" />
-                        <Label layoutX="119.0" layoutY="44.0" text="Port" />
+                        <Label layoutX="119.0" layoutY="44.0" text="Port:" />
                         <TextField fx:id="port" layoutX="150.0" layoutY="40.0" />
                      </children>
                   </AnchorPane>
