@@ -21,6 +21,7 @@
                         <Button fx:id="createDataBase" disable="true" layoutX="198.0" layoutY="81.0" mnemonicParsing="false" onAction="#onCreateDataBaseClick" text="Wczytaj dane i stwórz bazę " />
                         <Label layoutX="21.0" layoutY="51.0" text="Nazwa bazy:" />
                         <TextField fx:id="dataBaseName" disable="true" layoutX="96.0" layoutY="47.0" prefHeight="25.0" prefWidth="425.0" />
+                        <Label fx:id="confirmationImport" layoutX="21.0" layoutY="125.0" text="Label" visible="false" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -28,9 +29,9 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="295.0" prefWidth="397.0">
                      <children>
-                        <ComboBox layoutX="94.0" layoutY="10.0" prefWidth="150.0" />
+                        <ComboBox fx:id="reviewDataBases" layoutX="94.0" layoutY="10.0" onAction="#onDataBaseCheckBoxSelect" prefWidth="150.0" promptText="Wybierz baze" />
                         <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
-                        <TextArea layoutX="14.0" layoutY="48.0" prefHeight="480.0" prefWidth="536.0" />
+                        <TextArea fx:id="showDataBase" layoutX="14.0" layoutY="48.0" prefHeight="509.0" prefWidth="576.0" />
                      </children>
                   </AnchorPane>
               </content>

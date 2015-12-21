@@ -18,39 +18,44 @@ import weka.core.converters.ArffLoader;
  * @author Mateusz
  */
 public class WekaService {
-    
+
     private Instances data;
     private String fileName;
-    
-    private WekaService(){}
-    
-    public WekaService(String path){
-        fileName=path;
+
+    private WekaService() {
+    }
+
+    public WekaService(String path) {
+        fileName = path;
         loadData();
     }
-    
-    private void loadData(){
-        try{
+
+    private void loadData() {
+        try {
             ArffLoader loader = new ArffLoader();
             loader.setFile(new File(fileName));
-            data=loader.getDataSet();
-        }catch(IOException ex){
-            
+            data = loader.getDataSet();
+        } catch (IOException ex) {
+
         }
     }
-    
-    public ArrayList<String> getAttributesName(){
-        ArrayList<String> list= new ArrayList<>();
-        for(int i=0;i<data.numAttributes();i++){
+
+    public ArrayList<String> getAttributesName() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < data.numAttributes(); i++) {
             Attribute attribut = data.attribute(i);
-            list.add(attribut.name());
+            if (attribut.name().equals("class")) {
+                list.add("klasa");
+            } else {
+                list.add(attribut.name());
+            }
         }
         return list;
     }
-    
-    public ArrayList<Instance> getInstances(){
+
+    public ArrayList<Instance> getInstances() {
         ArrayList<Instance> list = new ArrayList<>();
-        for(int i=0;i<data.numInstances();i++){
+        for (int i = 0; i < data.numInstances(); i++) {
             list.add(data.instance(i));
         }
         return list;

@@ -6,9 +6,11 @@
 package couchdb;
 
 import application.state.ApplicationState;
+import application.state.ParseJSON;
 import com.fourspaces.couchdb.Database;
 import com.fourspaces.couchdb.Document;
 import com.fourspaces.couchdb.Session;
+import com.fourspaces.couchdb.ViewResults;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,24 @@ public class CouchDBService {
             db.saveDocument(doc);
         }
 
+    }
+    
+    public List<String> getDataBasesNames(){
+        List<String> list=session.getDatabaseNames();
+        list.remove("_replicator");
+        list.remove("_users");
+        return list;
+    }
+    
+    public String getSimpleDocument(String name){
+        Database db = session.getDatabase(name);
+        ViewResults result = db.getAllDocuments();
+        List<Document> list = result.getResults();
+        String id = list.get(0).getJSONObject().getString("id");
+        Document doc = db.getDocument(id);
+        String document=doc.toString();
+                
+        return document;
     }
 
 }
