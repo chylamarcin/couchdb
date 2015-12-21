@@ -9,6 +9,7 @@ import application.state.ApplicationState;
 import couchdb.CouchDBService;
 import java.io.File;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,14 +73,34 @@ public class GUIController implements Initializable {
     @FXML
     public void onCreateDataBaseClick() {
         CouchDBService cdbs = new CouchDBService();
-        if (cdbs.createDataBase(dataBaseName.getText()) == false) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Błąd przy tworzeniu bazy!");
-            alert.setContentText("Baza o podanej nazwie istnieje na serwerze.\nZmień nazwę i spróbuj ponownie.");
-            alert.showAndWait();
+        boolean tmp = true;
+        try {
+            cdbs.checkServer();
+        } catch (UnknownHostException ex) {
+            tmp = false;
+        }
+        if (tmp) {
+            if (cdbs.createDataBase(dataBaseName.getText()) == false) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setTitle("Błąd przy tworzeniu bazy!");
+                alert.setContentText("Baza o podanej nazwie istnieje na serwerze.\nZmień nazwę i spróbuj ponownie.");
+                alert.showAndWait();
+            } else {
+                cdbs.importData(fileForNewDataBase.getText(), dataBaseName.getText());
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("Baza utworzona poprawnie!");
+                alert.setContentText("Baza została utworzona.\nPlik z danymy został zapisany w bazie.");
+                alert.showAndWait();
+            }
         } else {
-
+            Alert alert = new Alert(AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setTitle("Błąd przy łączeniu z bazą!");
+                alert.setContentText("Nie mogłem połączyć się z serwerem bazy "
+                        + "danych.\nSprawdź ustawienia i spróbuj ponownie.");
+                alert.showAndWait();
         }
 
     }

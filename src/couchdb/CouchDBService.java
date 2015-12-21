@@ -6,35 +6,67 @@
 package couchdb;
 
 import application.state.ApplicationState;
+import com.fourspaces.couchdb.Database;
+import com.fourspaces.couchdb.Document;
 import com.fourspaces.couchdb.Session;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
+import weka.WekaService;
+import weka.core.Instance;
 
 /**
  *
  * @author Mateusz
  */
 public class CouchDBService {
-    
+
     private String URL;
     private int port;
-    public CouchDBService(){
+    private Session session;
+
+    public CouchDBService() {
         ApplicationState as = new ApplicationState();
-        String [] tab = as.sendTabToApplication();
-        URL=tab[0];
+        String[] tab = as.sendTabToApplication();
+        URL = tab[0];
         port = Integer.parseInt(tab[1]);
+        session = new Session(URL, port);
     }
-    
-    public boolean createDataBase(String name){
-        Session session = new Session("localhost", 5984);
-        List<String> list =session.getDatabaseNames();
-        for(String s:list){
-            if(s.equals(name))
+
+    public void checkServer() throws UnknownHostException {
+        try {
+            List<String> list = session.getDatabaseNames();
+        } catch (NullPointerException ex) {
+            throw new UnknownHostException();
+        }
+    }
+
+    public boolean createDataBase(String name) {
+        List<String> list = session.getDatabaseNames();
+        for (String s : list) {
+            if (s.equals(name)) {
                 return false;
+            }
         }
         session.createDatabase(name);
         return true;
     }
 
-    
-    
+    public void importData(String fileName, String dataBaseName) {
+        WekaService ws = new WekaService(fileName);
+        ArrayList<String> listOfAttributesNames = ws.getAttributesName();
+        ArrayList<Instance> listOfInstances = ws.getInstances();
+        Database db = session.getDatabase(dataBaseName);
+        for (int i = 0; i < listOfInstances.size(); i++) {
+            Instance instance = listOfInstances.get(i);
+            Document doc = new Document();
+            doc.setId(String.valueOf(i));
+            for (int j = 0; j < instance.numAttributes(); j++) {
+                doc.put(listOfAttributesNames.get(j), instance.toString(j));
+            }
+            db.saveDocument(doc);
+        }
+
+    }
+
 }
