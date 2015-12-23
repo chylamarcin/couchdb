@@ -43,15 +43,17 @@ public class ParseJSON {
         String classa="";
         for(String s:tab){
             String tmp0= s.split(":")[0].replace("\"", "");
-            String tmp1= s.split(":")[0].replace("\"", "");
+            String tmp1= s.split(":")[1].replace("\"", "");
             if(tmp0.equals("_rev")|| tmp0.equals("_id"))
                 continue;
             if(tmp0.equals("klasa"))
-                classa=tmp0;
+                classa=tmp1;
             else
                 list.add(tmp1);
         }
+        
         list.add(classa);
+        
         return list;
     }
 

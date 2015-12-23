@@ -132,14 +132,30 @@ public class GUIController implements Initializable {
     @FXML
     public void onDataBaseCheckBoxSelect(){
         CouchDBService cdbs= new CouchDBService();
-        String simple= cdbs.getSimpleDocument(reviewDataBases.getValue().toString());
+        String dataName=reviewDataBases.getValue().toString();
+        ArrayList<String> simple= cdbs.getSimpleDocuments(dataName);
         ParseJSON p = new ParseJSON();
-        ArrayList<String> list = p.getAttributes(simple);
-        String attributes="";
-        for(String s:list){
-            attributes= attributes+ String.format("%-30s", s);
+        ArrayList<String> listAttributes = cdbs.getAttributes(simple);
+        ArrayList<String> listValues = cdbs.getValues(simple);
+        String text="@RELATION "+dataName+"\n\n";
+        for(String s:listAttributes){
+            text=text+ s+"\n";
         }
-        showDataBase.setText(attributes);
+        text=text+"\n@DATA\n";
+        int i=0;
+        for(String s:listValues){
+            if(i<listAttributes.size()){
+                text=text+ s+",";
+                i++;
+            }else{
+                text=text+"\n";
+                text=text+s;
+                i=1;
+                
+            }
+        }
+        
+        showDataBase.setText(text);
         
         
     }

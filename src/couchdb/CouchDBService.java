@@ -70,23 +70,99 @@ public class CouchDBService {
         }
 
     }
-    
-    public List<String> getDataBasesNames(){
-        List<String> list=session.getDatabaseNames();
+
+    public List<String> getDataBasesNames() {
+        List<String> list = session.getDatabaseNames();
         list.remove("_replicator");
         list.remove("_users");
         return list;
     }
-    
-    public String getSimpleDocument(String name){
+
+    public ArrayList<String> getSimpleDocuments(String name) {
         Database db = session.getDatabase(name);
         ViewResults result = db.getAllDocuments();
         List<Document> list = result.getResults();
-        String id = list.get(0).getJSONObject().getString("id");
-        Document doc = db.getDocument(id);
-        String document=doc.toString();
-                
-        return document;
+        ArrayList<String> listOfDocuments = new ArrayList<>();
+        for (Document d : list) {
+            String id = d.getJSONObject().getString("id");
+            Document doc = db.getDocument(id);
+            listOfDocuments.add(doc.toString());
+        }
+
+        return listOfDocuments;
+    }
+
+    public ArrayList<String> getValues(ArrayList<String> listOfDocuments) {
+        
+        ParseJSON p = new ParseJSON();
+        ArrayList<String> listOfValues = new ArrayList<>();
+        for (String s : listOfDocuments) {
+
+            listOfValues.addAll(p.getValues(s));
+
+        }
+        return listOfValues;
+    }
+
+    public ArrayList<String> getAttributes(ArrayList<String> simpleDocuments) {
+        ArrayList<String> listOfValues = getValues(simpleDocuments);
+        ParseJSON p = new ParseJSON();
+        ArrayList<String> listOfSimpleAttributes
+                = p.getAttributes(simpleDocuments.get(0));
+        ArrayList<String> listOfComplexAttributes = new ArrayList<>();
+        int i = 0;
+        String type = "";
+        
+        for (String s : listOfSimpleAttributes) {
+            String attribut = "@ATTRIBUTE\t" + s + "\t";
+            try {
+                float tmp = Float.parseFloat(listOfValues.get(i));
+                type = "REAL";
+            } catch (NumberFormatException ex) {
+
+                ArrayList<String> list = isNominal(i,listOfValues,listOfSimpleAttributes);
+                if (list.isEmpty()) {
+                    type = "STRING";
+                } else {
+                    type = "\t{";
+                    for (String ss : list) {
+                        if (list.indexOf(ss) == list.size() - 1) {
+                            type = type + ss + "}";
+                        } else {
+                            type = type + ss + ",";
+                        }
+                    }
+                }
+            }
+            attribut = attribut + type;
+            listOfComplexAttributes.add(attribut);
+            i++;
+        }
+        return listOfComplexAttributes;
+    }
+
+    private ArrayList<String> isNominal(int positionOfAttribute,
+            ArrayList<String> listOfValues, ArrayList<String> listOfSimpleAttributes) {
+
+        ArrayList<String> listOfNominal = new ArrayList<>();
+        int i = positionOfAttribute;
+        int numberOfAttributes = listOfSimpleAttributes.size();
+        while (i < listOfValues.size()) {
+            
+            String tmp = listOfValues.get(i);
+            if (!listOfNominal.contains(tmp)) {
+                listOfNominal.add(tmp);
+            }
+            i = i + numberOfAttributes;
+        }
+        float countNominal = listOfNominal.size();
+        float countValues = listOfValues.size() / numberOfAttributes;
+        float tmp = countNominal / countValues;
+        if (tmp < 0.5) {
+            return listOfNominal;
+        } else {
+            return null;
+        }
     }
 
 }
