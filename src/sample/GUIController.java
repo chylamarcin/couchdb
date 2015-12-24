@@ -23,10 +23,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jfx.messagebox.MessageBox;
 import weka.WekaService;
 
 /**
@@ -46,6 +50,12 @@ public class GUIController implements Initializable {
     Label confirmationImport;
     @FXML
     TextArea showDataBase;
+    @FXML
+    AnchorPane connectionForm;
+    @FXML
+    TabPane mainProgramView;
+    @FXML
+    MenuItem connection, disconnection;
 
     /**
      * Initializes the controller class.
@@ -56,8 +66,6 @@ public class GUIController implements Initializable {
         ApplicationState as = new ApplicationState();
         URL.setText(as.sendTabToApplication()[0]);
         port.setText(as.sendTabToApplication()[1]);
-        CouchDBService cdbs = new CouchDBService();
-        reviewDataBases.getItems().addAll(cdbs.getDataBasesNames());
 
     }
 
@@ -65,7 +73,30 @@ public class GUIController implements Initializable {
     public void onSaveAdresClick() {
         ApplicationState as = new ApplicationState();
         as.fillTabFromApplication(URL.getText(), port.getText());
-        Main.resize(600, 620);
+        boolean tmp = true;
+        CouchDBService cdbs = new CouchDBService();
+        try {
+            reviewDataBases.getItems().addAll(cdbs.getDataBasesNames());
+        } catch (NullPointerException ex) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Błąd przy łączeniu z serwerem bazy!");
+            alert.setContentText("Nie mogłem się połączyć z serwerem bazy "
+                    + "danych.\nSprawdź czy podałeś poprawny adres i port,\n"
+                    + "a następnie spróbuj ponownie");
+            alert.showAndWait();
+            tmp = false;
+        }
+        if (tmp) {
+            connectionForm.setVisible(false);
+
+            Main.resize(610, 650);
+
+            mainProgramView.setVisible(true);
+            connection.setDisable(true);
+            disconnection.setDisable(false);
+        }
+
     }
 
     @FXML
@@ -106,6 +137,13 @@ public class GUIController implements Initializable {
                 alert.setTitle("Błąd przy tworzeniu bazy!");
                 alert.setContentText("Baza o podanej nazwie istnieje na serwerze.\nZmień nazwę i spróbuj ponownie.");
                 alert.showAndWait();
+            } else if (dataBaseName.getText().replace(" ", "").equals("")) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setTitle("Błąd przy tworzeniu bazy!");
+                alert.setContentText("Nie podano nazwy.\nPodaj nazwę i spróbuj ponownie.");
+                alert.showAndWait();
+
             } else {
                 cdbs.importData(fileForNewDataBase.getText(), dataBaseName.getText());
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -181,6 +219,31 @@ public class GUIController implements Initializable {
         reviewDataBases.getItems().removeAll(list);
         reviewDataBases.getItems().addAll(cdbs.getDataBasesNames());
         deleteDataBase.setDisable(true);
+    }
+
+    @FXML
+    public void onConnectionDataBaseClick() {
+        connectionForm.setVisible(true);
+    }
+
+    @FXML
+    public void onDisconnectionDataBaseClick() {
+        mainProgramView.setVisible(false);
+        connectionForm.setVisible(true);
+        Main.resize(320, 170);
+    }
+
+    @FXML
+    public void onAboutClick() {
+        MessageBox.show(null,
+                "Program do tworzenia i przeglądania baz danych w technologii"
+                + " CouchDB.\nZawiera implementację prostych algorytmów "
+                + "eksploracji danych - kNN i k-średnich.\nPrzygotowany "
+                + "jako projekt na zaliczenie przedmiotu Specjalistyczne"
+                + " Zastosowanie\nInteligentnych Systemów Wspomagania "
+                + "Decyzji. \n\n\u00a9 Mateusz Ślęzak & Marcin Chyła 2015",
+                "O programie",
+                MessageBox.CANCEL);
     }
 
 }

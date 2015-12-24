@@ -7,9 +7,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="636.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
+<AnchorPane id="AnchorPane" maxHeight="636.0" maxWidth="600.0" minHeight="118.0" minWidth="318.0" prefHeight="154.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
    <children>
-      <TabPane layoutY="25.0" prefHeight="587.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+      <AnchorPane fx:id="connectionForm" prefHeight="154.0" prefWidth="318.0" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="39.0" text="Adres serwera CouchDB:" />
+            <TextField fx:id="URL" layoutX="155.0" layoutY="35.0" />
+            <Label layoutX="119.0" layoutY="69.0" text="Port:" />
+            <TextField fx:id="port" layoutX="155.0" layoutY="65.0" />
+            <Button layoutX="253.0" layoutY="103.0" mnemonicParsing="false" onAction="#onSaveAdresClick" text="Połącz" />
+         </children>
+      </AnchorPane>
+      <TabPane fx:id="mainProgramView" layoutY="25.0" maxWidth="610.0" minWidth="610.0" prefHeight="587.0" prefWidth="610.0" tabClosingPolicy="UNAVAILABLE" visible="false">
         <tabs>
           <Tab text="Nowa baza">
             <content>
@@ -84,10 +93,20 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="14.0" layoutY="17.0" text="Adres serwera CouchDB:" />
-      <TextField fx:id="URL" layoutX="151.0" layoutY="13.0" />
-      <Label layoutX="119.0" layoutY="47.0" text="Port:" />
-      <TextField fx:id="port" layoutX="151.0" layoutY="43.0" />
-      <Button layoutX="249.0" layoutY="76.0" mnemonicParsing="false" onAction="#onSaveAdresClick" text="Połącz" />
+      <MenuBar prefHeight="25.0" prefWidth="618.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Baza danych">
+            <items>
+              <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#onConnectionDataBaseClick" text="Polącz z bazą" />
+                  <MenuItem fx:id="disconnection" disable="true" mnemonicParsing="false" onAction="#onDisconnectionDataBaseClick" text="Rozłącz z bazą" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Pomoc">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onAboutClick" text="O programie" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>
