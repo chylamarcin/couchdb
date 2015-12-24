@@ -33,7 +33,7 @@ public class ParseJSON {
             }
         }
         attributes.remove("class");
-        attributes.add("class");
+        attributes.add("class ");
         return attributes;
     }
     

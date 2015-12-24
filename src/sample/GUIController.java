@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,14 +39,14 @@ public class GUIController implements Initializable {
     @FXML
     TextField URL, port, fileForNewDataBase, dataBaseName;
     @FXML
-    Button saveAddres, createDataBase;
+    Button saveAddres, createDataBase, deleteDataBase;
     @FXML
     ComboBox reviewDataBases;
     @FXML
     Label confirmationImport;
     @FXML
     TextArea showDataBase;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -64,6 +65,7 @@ public class GUIController implements Initializable {
     public void onSaveAdresClick() {
         ApplicationState as = new ApplicationState();
         as.fillTabFromApplication(URL.getText(), port.getText());
+        Main.resize(600, 620);
     }
 
     @FXML
@@ -89,6 +91,7 @@ public class GUIController implements Initializable {
 
     @FXML
     public void onCreateDataBaseClick() {
+        reviewDataBases.setDisable(true);
         CouchDBService cdbs = new CouchDBService();
         boolean tmp = true;
         try {
@@ -126,38 +129,58 @@ public class GUIController implements Initializable {
                     + "danych.\nSprawdź ustawienia i spróbuj ponownie.");
             alert.showAndWait();
         }
-
+        reviewDataBases.setDisable(false);
     }
-    
+
     @FXML
-    public void onDataBaseCheckBoxSelect(){
-        CouchDBService cdbs= new CouchDBService();
-        String dataName=reviewDataBases.getValue().toString();
-        ArrayList<String> simple= cdbs.getSimpleDocuments(dataName);
-        ParseJSON p = new ParseJSON();
-        ArrayList<String> listAttributes = cdbs.getAttributes(simple);
-        ArrayList<String> listValues = cdbs.getValues(simple);
-        String text="@RELATION "+dataName+"\n\n";
-        for(String s:listAttributes){
-            text=text+ s+"\n";
+    public void onDataBaseCheckBoxSelect() {
+        CouchDBService cdbs = new CouchDBService();
+        String dataName = "";
+        try {
+            dataName = reviewDataBases.getValue().toString();
+        } catch (NullPointerException ex) {
+
         }
-        text=text+"\n@DATA\n";
-        int i=0;
-        for(String s:listValues){
-            if(i<listAttributes.size()){
-                text=text+ s+",";
-                i++;
-            }else{
-                text=text+"\n";
-                text=text+s;
-                i=1;
-                
+        if (!dataName.equals("")) {
+            ArrayList<String> simple = cdbs.getSimpleDocuments(dataName);
+            ParseJSON p = new ParseJSON();
+            ArrayList<String> listAttributes = cdbs.getAttributes(simple);
+            ArrayList<String> listValues = cdbs.getValues(simple);
+            String text = "@RELATION " + dataName + "\n\n";
+            for (String s : listAttributes) {
+                text = text + s + "\n";
             }
+            text = text + "\n@DATA\n";
+            int i = 0;
+            for (String s : listValues) {
+                if (i < listAttributes.size()) {
+                    text = text + s + ",";
+                    i++;
+                } else {
+                    text = text + "\n";
+                    text = text + s;
+                    i = 1;
+
+                }
+            }
+
+            showDataBase.setText(text);
+            deleteDataBase.setDisable(false);
+
         }
-        
-        showDataBase.setText(text);
-        
-        
+    }
+
+    @FXML
+    public void onDeleteDataBaseClick() {
+        CouchDBService cdbs = new CouchDBService();
+        String name = reviewDataBases.getValue().toString();
+        cdbs.deleteDataBase(name);
+        showDataBase.setText("");
+        List<String> list = cdbs.getDataBasesNames();
+        list.add(name);
+        reviewDataBases.getItems().removeAll(list);
+        reviewDataBases.getItems().addAll(cdbs.getDataBasesNames());
+        deleteDataBase.setDisable(true);
     }
 
 }

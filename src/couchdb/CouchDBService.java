@@ -138,6 +138,7 @@ public class CouchDBService {
             listOfComplexAttributes.add(attribut);
             i++;
         }
+        
         return listOfComplexAttributes;
     }
 
@@ -163,6 +164,10 @@ public class CouchDBService {
         } else {
             return null;
         }
+    }
+    
+    public boolean deleteDataBase(String name){
+        return session.deleteDatabase(name);
     }
 
 }
