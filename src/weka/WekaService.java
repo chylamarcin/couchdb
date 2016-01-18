@@ -14,22 +14,43 @@ import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
 /**
+ * Klasa do obsługii biblioteki WEKA.
  *
- * @author Mateusz
+ * @author Mateusz Ślęzak &amp; Marcin Chyła
  */
 public class WekaService {
 
+    /**
+     * Pole przechowujące dane typu Instances.
+     */
     private Instances data;
+
+    /**
+     * Pole przechowujące ścieżkę do pliku z danymi.
+     */
     private String fileName;
 
+    /**
+     * Bezparametrowy konstruktor klasy. Modyfikator dostępu private
+     * uniemożliwia wykorzystanie go do stworzenia obiektu klasy poza nią.
+     */
     private WekaService() {
     }
 
+    /**
+     * Konstruktor klasy. Ustawia wartość pola przechowującego ścieżkę do pliku
+     * z danymi oraz wczytuje dane.
+     *
+     * @param path ścieżka do pliku
+     */
     public WekaService(String path) {
         fileName = path;
         loadData();
     }
 
+    /**
+     * Metoda do wczytywania danych.
+     */
     private void loadData() {
         try {
             ArffLoader loader = new ArffLoader();
@@ -40,6 +61,21 @@ public class WekaService {
         }
     }
 
+    /**
+     * Metoda do zwracania danych.
+     *
+     * @return Obiekt klasy Instances.
+     */
+    public Instances getData() {
+        return data;
+    }
+
+    /**
+     * Metoda do pobierania atrybutów z zestawu danych.
+     *
+     * @return ArrayList zawierająca informacje o atrybutach z wczytanych
+     * danych.
+     */
     public ArrayList<String> getAttributesName() {
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < data.numAttributes(); i++) {
@@ -53,6 +89,11 @@ public class WekaService {
         return list;
     }
 
+    /**
+     * Metoda do pobierania obiektów z zestawu danych.
+     *
+     * @return ArrayList danych typu Instance pochodzących z wczytanych danych.
+     */
     public ArrayList<Instance> getInstances() {
         ArrayList<Instance> list = new ArrayList<>();
         for (int i = 0; i < data.numInstances(); i++) {

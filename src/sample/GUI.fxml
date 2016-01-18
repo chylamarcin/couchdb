@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="636.0" maxWidth="600.0" minHeight="118.0" minWidth="318.0" prefHeight="154.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
+<AnchorPane id="AnchorPane" maxHeight="636.0" maxWidth="600.0" minHeight="118.0" minWidth="318.0" prefHeight="173.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUIController">
    <children>
-      <AnchorPane fx:id="connectionForm" prefHeight="154.0" prefWidth="318.0" visible="false">
+      <AnchorPane fx:id="connectionForm" prefHeight="170.0" prefWidth="320.0" visible="false">
          <children>
             <Label layoutX="14.0" layoutY="39.0" text="Adres serwera CouchDB:" />
             <TextField fx:id="URL" layoutX="155.0" layoutY="35.0" />
@@ -18,81 +18,6 @@
             <Button layoutX="253.0" layoutY="103.0" mnemonicParsing="false" onAction="#onSaveAdresClick" text="Połącz" />
          </children>
       </AnchorPane>
-      <TabPane fx:id="mainProgramView" layoutY="25.0" maxWidth="610.0" minWidth="610.0" prefHeight="587.0" prefWidth="610.0" tabClosingPolicy="UNAVAILABLE" visible="false">
-        <tabs>
-          <Tab text="Nowa baza">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Plik z danymi:" />
-                        <Button layoutX="526.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCreateDataBaseFileChooseClick" text="..." />
-                        <TextField fx:id="fileForNewDataBase" disable="true" editable="false" layoutX="96.0" layoutY="10.0" prefHeight="25.0" prefWidth="424.0" />
-                        <Button fx:id="createDataBase" disable="true" layoutX="198.0" layoutY="81.0" mnemonicParsing="false" onAction="#onCreateDataBaseClick" text="Wczytaj dane i stwórz bazę " />
-                        <Label layoutX="21.0" layoutY="51.0" text="Nazwa bazy:" />
-                        <TextField fx:id="dataBaseName" disable="true" layoutX="96.0" layoutY="47.0" prefHeight="25.0" prefWidth="425.0" />
-                        <Label fx:id="confirmationImport" layoutX="21.0" layoutY="125.0" text="Label" visible="false" />
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Przeglądaj ">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="600.0">
-                     <children>
-                        <ComboBox fx:id="reviewDataBases" layoutX="94.0" layoutY="10.0" onAction="#onDataBaseCheckBoxSelect" prefWidth="150.0" promptText="Wybierz baze" />
-                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
-                        <TextArea fx:id="showDataBase" layoutX="14.0" layoutY="48.0" prefHeight="509.0" prefWidth="576.0" />
-                        <Button fx:id="deleteDataBase" disable="true" layoutX="250.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteDataBaseClick" text="Usuń wybraną bazę" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="K-średnich">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="386.0" prefWidth="420.0">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
-                        <ComboBox layoutX="95.0" layoutY="10.0" prefWidth="150.0" />
-                        <Label layoutX="253.0" layoutY="14.0" text="k:" />
-                        <TextField layoutX="272.0" layoutY="10.0" promptText="Podaj wartość k" />
-                        <Button layoutX="432.0" layoutY="10.0" mnemonicParsing="false" text="Oblicz skupienia " />
-                        <PieChart layoutX="14.0" layoutY="52.0" prefHeight="271.0" prefWidth="538.0" />
-                        <TextArea layoutX="13.0" layoutY="332.0" prefHeight="201.0" prefWidth="540.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="K-NN">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Wskaż bazę treningową:" />
-                        <ComboBox layoutX="148.0" layoutY="10.0" prefWidth="150.0" />
-                        <RadioButton layoutX="14.0" layoutY="68.0" mnemonicParsing="false" text="Baza z danymi">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="source" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton layoutX="14.0" layoutY="101.0" mnemonicParsing="false" text="Plik z danymi" toggleGroup="$source" />
-                        <Label layoutX="14.0" layoutY="42.0" text="Wybierz źródło danych testowych:" />
-                        <ComboBox layoutX="148.0" layoutY="64.0" prefWidth="150.0" />
-                        <TextField layoutX="149.0" layoutY="97.0" />
-                        <Button layoutX="308.0" layoutY="97.0" mnemonicParsing="false" text="..." />
-                        <Button layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Klasyfikuj" />
-                        <Button layoutX="467.0" layoutY="501.0" mnemonicParsing="false" text="Zapisz wynik" />
-                        <TextArea layoutX="14.0" layoutY="170.0" prefHeight="320.0" prefWidth="540.0" />
-                        <Label layoutX="308.0" layoutY="14.0" text="Atrybut decyzyjny (nazwa lub numer):" />
-                        <TextField layoutX="333.0" layoutY="38.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-          <Tab text="Ustawienia">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
       <MenuBar prefHeight="25.0" prefWidth="618.0">
         <menus>
           <Menu mnemonicParsing="false" text="Baza danych">
@@ -108,5 +33,78 @@
           </Menu>
         </menus>
       </MenuBar>
+      <TabPane fx:id="mainProgramView" layoutY="25.0" maxWidth="610.0" minWidth="610.0" prefHeight="587.0" prefWidth="610.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+        <tabs>
+          <Tab text="Nowa baza">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Plik z danymi:" />
+                        <Button layoutX="526.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCreateDataBaseFileChooseClick" text="..." />
+                        <TextField fx:id="fileForNewDataBase" disable="true" editable="false" layoutX="96.0" layoutY="10.0" prefHeight="25.0" prefWidth="424.0" />
+                        <Button fx:id="createDataBase" disable="true" layoutX="198.0" layoutY="81.0" mnemonicParsing="false" onAction="#onCreateDataBaseClick" text="Wczytaj dane i stwórz bazę " />
+                        <Label layoutX="21.0" layoutY="51.0" text="Nazwa bazy:" />
+                        <TextField fx:id="dataBaseName" disable="true" layoutX="96.0" layoutY="47.0" prefHeight="25.0" prefWidth="425.0" />
+                        <Label fx:id="confirmationImport" layoutX="21.0" layoutY="125.0" text="Label" visible="false" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Przeglądaj ">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="600.0">
+                     <children>
+                        <ComboBox fx:id="reviewDataBases" layoutX="94.0" layoutY="10.0" onAction="#onDataBaseCheckBoxSelect" prefWidth="150.0" promptText="Wybierz baze" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
+                        <TextArea fx:id="showDataBase" editable="false" layoutX="14.0" layoutY="48.0" prefHeight="509.0" prefWidth="576.0" />
+                        <Button fx:id="deleteDataBase" disable="true" layoutX="250.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeleteDataBaseClick" text="Usuń wybraną bazę" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="K-średnich">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="386.0" prefWidth="420.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Wybierz bazę:" />
+                        <ComboBox fx:id="kmeans" layoutX="95.0" layoutY="10.0" onAction="#onDataBaseCheckBoxSelectKMeans" prefWidth="150.0" promptText="Wybierz bazę" />
+                        <Label layoutX="253.0" layoutY="14.0" text="k:" />
+                        <TextField fx:id="kParam" disable="true" layoutX="272.0" layoutY="10.0" promptText="Podaj wartość k" />
+                        <Button fx:id="generateMeans" disable="true" layoutX="432.0" layoutY="10.0" mnemonicParsing="false" onAction="#onGenerateMeansClick" text="Oblicz skupienia " />
+                        <TextArea fx:id="showKMeansResult" editable="false" layoutX="13.0" layoutY="52.0" prefHeight="453.0" prefWidth="585.0" />
+                        <Button fx:id="saveKMeansResult" disable="true" layoutX="513.0" layoutY="519.0" mnemonicParsing="false" onAction="#onSaveKMeansClick" text="Zapisz wynik" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="K-NN">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="340.0" layoutY="73.0" text="Wartość parametru k" />
+                        <Label layoutX="14.0" layoutY="15.0" text="Wskaż bazę treningową:" />
+                        <ComboBox fx:id="knnTrain" layoutX="148.0" layoutY="10.0" onAction="#onDataBaseCheckBoxSelectKNN" prefWidth="150.0" promptText="Wybierz bazę" />
+                        <RadioButton fx:id="data" disable="true" layoutX="14.0" layoutY="68.0" mnemonicParsing="false" onAction="#onDataSelect" text="Baza z danymi">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="source" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="file" disable="true" layoutX="14.0" layoutY="101.0" mnemonicParsing="false" onAction="#onFileSelect" text="Plik z danymi" toggleGroup="$source" />
+                        <Label layoutX="14.0" layoutY="42.0" text="Wybierz źródło danych testowych:" />
+                        <ComboBox fx:id="knnTest" disable="true" layoutX="148.0" layoutY="64.0" onAction="#onKNNTestSelect" prefWidth="150.0" promptText="Wybierz bazę" />
+                        <TextField fx:id="fileForKNN" disable="true" layoutX="149.0" layoutY="97.0" />
+                        <Button fx:id="showFileForKNN" disable="true" layoutX="308.0" layoutY="97.0" mnemonicParsing="false" onAction="#onShowFileForKNNClick" text="..." />
+                        <Button fx:id="makeKNN" disable="true" layoutX="14.0" layoutY="134.0" mnemonicParsing="false" onAction="#onMakeKNNClick" text="Klasyfikuj" />
+                        <TextArea fx:id="showKNNResult" editable="false" layoutX="14.0" layoutY="170.0" prefHeight="355.0" prefWidth="585.0" />
+                        <Label layoutX="350.0" layoutY="15.0" text="Nazwa atrybutu decyzyjnego: " />
+                        <TextField fx:id="attributeName" disable="true" layoutX="370.0" layoutY="40.0" promptText="podaj nazwę" />
+                        <Button fx:id="saveKNN" disable="true" layoutX="510.0" layoutY="530.0" mnemonicParsing="false" onAction="#onSaveKNNClick" text="Zapisz wynik" />
+                        <TextField fx:id="kParamKNN" disable="true" layoutX="370.0" layoutY="98.0" promptText="podaj k" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>
